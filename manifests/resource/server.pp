@@ -46,6 +46,7 @@
 #   [*resolver*]            - Array: Configures name servers used to resolve
 #     names of upstream servers into addresses.
 #   [*fastcgi*]             - location of fastcgi (host:port)
+#   [*fastcgi_index*]       - FastCGI index page
 #   [*fastcgi_param*]       - Set additional custom fastcgi_params
 #   [*fastcgi_params*]      - optional alternative fastcgi_params file to use
 #   [*fastcgi_script*]      - optional SCRIPT_FILE parameter
@@ -254,6 +255,7 @@ define nginx::resource::server (
   Optional[String] $proxy_buffering                                              = undef,
   Array $resolver                                                                = [],
   Optional[String] $fastcgi                                                      = undef,
+  $fastcgi_index                                                                 = undef,
   $fastcgi_param                                                                 = undef,
   String $fastcgi_params                                                         = "${::nginx::conf_dir}/fastcgi_params",
   Optional[String] $fastcgi_script                                               = undef,
@@ -405,6 +407,7 @@ define nginx::resource::server (
       proxy_set_body              => $proxy_set_body,
       proxy_buffering             => $proxy_buffering,
       fastcgi                     => $fastcgi,
+      fastcgi_index               => $fastcgi_index,
       fastcgi_param               => $fastcgi_param,
       fastcgi_params              => $fastcgi_params,
       fastcgi_script              => $fastcgi_script,
