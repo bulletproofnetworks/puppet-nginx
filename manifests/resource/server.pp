@@ -68,6 +68,7 @@
 #   [*spdy*]                       - Toggles SPDY protocol.
 #   [*http2*]                      - Toggles HTTP/2 protocol.
 #   [*server_name*]                - List of servernames for which this server will respond. Default [$name].
+#   [*location*]                   - Nginx path location
 #   [*www_root*]                   - Specifies the location on disk for files to be read from. Cannot be set in conjunction with $proxy
 #   [*rewrite_www_to_non_www*]     - Adds a server directive and rewrite rule to rewrite www.domain.com to domain.com in order to avoid
 #     duplicate content (SEO);
@@ -205,6 +206,7 @@ define nginx::resource::server (
     'index.php'],
   Optional[String] $autoindex                                                    = undef,
   Array[String] $server_name                                                     = [$name],
+  Optional[String] $location                                                     = '/'
   Optional[String] $www_root                                                     = undef,
   Boolean $rewrite_www_to_non_www                                                = false,
   Optional[Hash] $location_custom_cfg                                            = undef,
@@ -324,7 +326,7 @@ define nginx::resource::server (
       server                      => $name_sanitized,
       ssl                         => $ssl,
       ssl_only                    => $ssl_only,
-      location                    => '/',
+      location                    => $location,
       location_satisfy            => $location_satisfy,
       location_allow              => $location_allow,
       location_deny               => $location_deny,

@@ -10,7 +10,8 @@ describe 'nginx::resource::server' do
       www_root: '/',
       ipv6_enable: true,
       listen_unix_socket_enable: true,
-      fastcgi_index: 'index.php'
+      fastcgi_index: 'index.php',
+      location: '/test'
     }
   end
 
@@ -985,6 +986,14 @@ describe 'nginx::resource::server' do
         end
 
         it { is_expected.to contain_file('/etc/nginx/fastcgi_params').with_mode('0644') }
+      end
+
+      context 'when location => "/test"' do
+        let :params do
+          default_params.merge(location: '/test')
+        end
+
+        it { is_expected.to contain_nginx__resource__location("#{title}-default").with_location('/test') }
       end
 
       context 'when fastcgi_index => "index.php"' do
